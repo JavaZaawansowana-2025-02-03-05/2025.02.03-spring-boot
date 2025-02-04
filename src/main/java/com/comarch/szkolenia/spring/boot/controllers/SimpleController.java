@@ -1,9 +1,12 @@
 package com.comarch.szkolenia.spring.boot.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Random;
 
 @Controller
 public class SimpleController {
@@ -34,5 +37,38 @@ public class SimpleController {
         System.out.println(age);
 
         return "index";
+    }
+
+    @RequestMapping(path = "/form", method = RequestMethod.GET)
+    public String form() {
+        return "form";
+    }
+
+    @RequestMapping(path = "/form", method = RequestMethod.POST)
+    public String form2(@RequestParam("name") String name,
+                        @RequestParam("surname") String surname,
+                        @RequestParam("age") int age) {
+        System.out.println(name);
+        System.out.println(surname);
+        System.out.println(age);
+        return "index";
+    }
+
+    @RequestMapping(path = "/test4", method = RequestMethod.GET)
+    public String test4(Model model) {
+        List<String> names = List.of(
+                "Janusz",
+                "Wiesiek",
+                "Bogdan",
+                "Zbyszek",
+                "Mateusz"
+        );
+
+        String name = names.get(new Random().nextInt(names.size()));
+
+        model.addAttribute("randomName", name);
+        model.addAttribute("allNames", names);
+
+        return "names";
     }
 }
